@@ -46,8 +46,7 @@ function randomarray() {
     }
 
   })
-  console.log(arrerr)
-  console.log(arr)
+
 }
 
 
@@ -77,7 +76,7 @@ elForm.addEventListener("submit", function (evt) {
   } else {
     
   }
-  console.log(userArray);
+
   localStorage.setItem("userArray", JSON.stringify(userArray))
   
 })
@@ -114,27 +113,28 @@ function categori() {
   let arrayRandomEasy = arr.slice(0, 20)
   let arrayRandomMidle = arr.slice(0, 40)
   let arrayRandomDifficult = arr.slice(0, 60)
+
   if (elGameCategory.value == "easy") {
-    yutish(arrayRandomEasy,20)
-    addList(arrayRandomEasy)
     arrandmTitle = arrayRandomEasy[Math.floor((Math.random() * arrayRandomEasy.length))]
     elQuestionTitle.textContent = arrandmTitle.name
+    yutish(arrayRandomEasy,20)
+    addList(arrayRandomEasy)
     
   }else if (elGameCategory.value == "midle") {
-    addList(arrayRandomMidle)
     arrandmTitle = arrayRandomMidle[Math.floor((Math.random() * arrayRandomMidle.length))]
     elQuestionTitle.textContent = arrandmTitle.name
     yutish(arrayRandomMidle,40)
+    addList(arrayRandomMidle)
     
   }else if (elGameCategory.value == "difficult") {
-    addList(arrayRandomDifficult)
     arrandmTitle = arrayRandomDifficult[Math.floor((Math.random() * arrayRandomDifficult.length))]
     elQuestionTitle.textContent = arrandmTitle.name
     yutish(arrayRandomDifficult,60)
+    addList(arrayRandomDifficult)
     
   }
   if (elGameTimer.value == "2time") {
-    timers(1)
+    timers(3)
   }else if (elGameTimer.value == "3time") {
     timers(5)
   }else if (elGameTimer.value == "4time") {
@@ -161,7 +161,8 @@ function addList(arr) {
   
 }
 //9 harbir list bosilganda  ////////////////////////////////////////
-function yutish(arrayRandomEasy,numbers) {
+function yutish(arrays, numbers) {
+  console.log(arrays);
   elList.addEventListener("click", (evt) => {
     if (cheklist == true) {
       if (evt.target.matches(".img-card")) {
@@ -169,14 +170,21 @@ function yutish(arrayRandomEasy,numbers) {
         let editinlist = evt.target.parentElement;
         
         
+    
         if (listId == arrandmTitle.id) {
           //5 yutish ///////////////////////////////////////
           let editin = evt.target.parentElement.childNodes[0];
           document.querySelectorAll(".card-item").forEach(itm => {
-            console.log(itm);
+           
             itm.style.backgroundColor = "#00000000"
           })
-          let dellfind = arrayRandomEasy.findIndex(itm => itm.id == listId)
+          let dellfind = arrays.findIndex(itm => itm.id == listId)
+          arrays.splice(dellfind, 1)
+        
+          arrandmTitle = arrays[Math.floor((Math.random() * arrays.length))]
+          console.log(arrays);
+          console.log(arrandmTitle);
+          elQuestionTitle.textContent = arrandmTitle.name
           ++numtrue
           //4 oyinda yutib chiqish //////////////////////////////////
           setTimeout(() => {
@@ -193,10 +201,8 @@ function yutish(arrayRandomEasy,numbers) {
               },"2000")
             }
        },1000)
-        
-          arrayRandomEasy.splice(dellfind, 1)
-          arrandmTitle = arrayRandomEasy[Math.floor((Math.random() * arrayRandomEasy.length))]
-          elQuestionTitle.textContent = arrandmTitle.name
+    
+         
           editin.style.transition = "opacity 1s "
           
           editin.style.opacity = "0"
@@ -210,11 +216,10 @@ function yutish(arrayRandomEasy,numbers) {
           setTimeout(() => {
             editin.style.opacity = "1"
             editin.src = "./images/check-mark.png"
-            checkaudio.stop()
           }, "1000")
           
           elBall.textContent = `Ball: ${num += 2}`
-          console.log(numerror);
+  
         } else {
           // 3  yutqazish//////////////////////////////
           elBall.textContent = `Ball: ${--num}`
@@ -233,10 +238,13 @@ function yutish(arrayRandomEasy,numbers) {
           setTimeout(() => {
             cheklist = true
           },100)
-          console.log(numerror);
+   
           //8 oyin tugashi ///////////////////////////////////
           if (numerror == 5) {
             setTimeout(() => {
+               arrayRandomEasy = []
+               arrayRandomMidle = []
+               arrayRandomDifficult = []
               let imgGaneOver = document.querySelector(".gane-over")
             elhiro.classList.add("d-none")
               imgGaneOver.classList.remove("d-none")
